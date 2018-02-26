@@ -5,11 +5,13 @@ from project.tests.base import BaseTestCase
 from project import db
 from project.api.models import User
 
+
 def add_user(username, email):
     user = User(username=username, email=email)
     db.session.add(user)
     db.session.commit()
     return user
+
 
 class TestUserService(BaseTestCase):
     """Tests for the Users Service."""
@@ -55,7 +57,7 @@ class TestUserService(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('pong!', data['message'])
         self.assertIn('success', data['status'])
-    
+
     def test_add_user(self):
         """Ensure a new user can be added to the database."""
         with self.client:
@@ -72,7 +74,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('testuser01@email.com was added!', data['message'])
             self.assertIn('success', data['status'])
 
-
     def test_add_user_invalid_json(self):
         """Ensure error is thrown if the JSON object is empty."""
         with self.client:
@@ -86,10 +87,8 @@ class TestUserService(BaseTestCase):
             self.assertIn('Invalid payload.', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_add_user_invalid_json_keys(self):
-        """
-        Ensure error is thrown if the JSON object does not have a username key.
+        """ Ensure error is thrown if the JSON object does not have a username key.
         """
         with self.client:
             response = self.client.post(
@@ -101,7 +100,6 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 400)
             self.assertIn('Invalid payload.', data['message'])
             self.assertIn('fail', data['status'])
-
 
     def test_add_user_duplicate_email(self):
         """Ensure error is thrown if the email already exists."""
@@ -128,7 +126,6 @@ class TestUserService(BaseTestCase):
                 'Sorry. That email already exists.', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
         user = add_user('testuser01', 'testuser01@email.com')
@@ -150,7 +147,6 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
-
 
     def test_single_user_incorrect_id(self):
         """Ensure error is thrown if the id does not exist."""
@@ -177,6 +173,7 @@ class TestUserService(BaseTestCase):
             self.assertIn(
                 'testuser02@email.com', data['data']['users'][1]['email'])
             self.assertIn('success', data['status'])
+
 
 if __name__ == '__main__':
     unittest.main()
