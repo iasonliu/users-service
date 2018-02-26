@@ -1,4 +1,6 @@
-## Common Commands
+## FLASK-USERSERVICE [![Build Status](https://travis-ci.org/iasonliu/users-service.svg?branch=master)](https://travis-ci.org/iasonliu/users-service)
+
+### Common Commands
 
 Build the images:
 ```
@@ -33,6 +35,5 @@ $ docker-compose -f docker-compose-dev.yml \
 
 Run checking stylistic and programming errors:
 ```
-docker-compose -f docker-compose-dev.yml \
-  run users-service flake8 project
+
 ```
